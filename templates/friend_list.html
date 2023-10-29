@@ -1,0 +1,8 @@
+
+<h1>Lista de Amigos Do usuario "{{ user_profile }}"</h1>
+
+<ul>
+  {% for friend in friends %}
+    <li>{{ friend.user.username }}</li>
+  {% endfor %}
+</ul>

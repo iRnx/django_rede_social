@@ -1,0 +1,6 @@
+<h1>Enviar Solicitação de Amizade para {{ recipient }}</h1>
+
+<form method="post" action="{% url 'send_friend_request' %}">
+    {% csrf_token %}
+    <button type="submit">Enviar Solicitação de Amizade</button>
+</form>

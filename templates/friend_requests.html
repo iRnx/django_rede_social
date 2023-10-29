@@ -1,0 +1,10 @@
+<h1>Solicitações de Amizade Pendentes</h1>
+
+  <ul>
+    {% for request in friend_requests %}
+      <li>{{ request.from_user.user.username }} deseja ser seu amigo.
+        <a href="{% url 'accept_friend_request' request.id %}">Aceitar</a> |
+        <a href="{% url 'reject_friend_request' request.id %}">Rejeitar</a>
+      </li>
+    {% endfor %}
+  </ul>

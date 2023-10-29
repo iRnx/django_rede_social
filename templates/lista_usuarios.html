@@ -1,0 +1,12 @@
+<h1>Todos os usuarios</h1>
+
+
+{% for usuario in usuarios %}
+
+    <ul>
+        <li>
+            <a href="{% url 'ver_usuario' usuario.id %}">{{ usuario }}</a>
+        </li>
+    </ul>
+
+{% endfor %}
