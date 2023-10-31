@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block 'nav' %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+          
+          <li class="nav-item">
+            <p class="nav-link">Logado: {{ request.user }}</p>
+          </li>
+
+          <li class="nav-item">
+            <button type="button" class="btn btn-primary position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="bi bi-people-fill"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                
+                  {{ todas_solicitacoes }}  
+                
+                <span class="visually-hidden">unread messages</span>
+                </span>
+            </button>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Solicitações de Amizade</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {% for solicitacao in solicitacoes %}
+
+              <p><strong>{{ solicitacao.from_user }}</strong> Deseja ser seu amigo</p>
+
+                <a href="{% url 'accept_friend_request' %}"><button type="button" class="btn btn-success">Aceitar</button></a> 
+                <!-- <a href="{% url 'accept_friend_request' %}">Aceitar</a> | -->
+                <!-- <a href="{% url 'reject_friend_request' %}">Rejeitar</a> -->
+                <a href="{% url 'reject_friend_request' %}"><button type="button" class="btn btn-danger">Rejeitar</button></a>
+                <br>
+                <br>
+              
+            {% endfor %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </nav>
+
+{% endblock %}
+
+
+{% block 'content' %}
+
+  {% include 'partials/messages.html' %}
+
+  <p>ID: {{ usuario.id }}</p>
+  <p>Usuario: {{ usuario.user }}</p>
+
+  {% if usuario == sender_profile %}
+    <p>Email: {{ usuario.user.email }}</p>
+  {% endif %}
+
+
+
+  {% if is_friend %}
+    <p>{{ recipient.username }} já é seu amigo.</p>
+    <form method="post" action="{% url 'desfazer_amizade' usuario.id %}">
+      {% csrf_token %}
+      <button type="submit">Desfazer Amizade</button>
+    </form>
+
+
+  {% elif not usuario == sender_profile %}
+
+    <h1>Enviar Solicitação de Amizade para {{ usuario }}</h1>
+    <form method="post" action="{% url 'send_friend_request' usuario.user %}">
+        {% csrf_token %}
+        <button type="submit">Enviar Solicitação de Amizade</button>
+    </form>
+
+  {% endif %}
+
+
+  <p><strong>Amigos do {{ usuario }}:</strong></p>
+  <ul>
+    {% for friends in usuario.friends.all %}
+      <li>
+          {{ friends }}
+      </li>
+      {% endfor %}
+  </ul>
+
+
+
+{% endblock %}
+
+

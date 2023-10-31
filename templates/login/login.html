@@ -1,0 +1,9 @@
+<form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    <input name="username" class="input_cadastrar input_cadastrar_email" type="text" placeholder="Username...">
+    <br>
+    <br>
+    <input name="senha" class="input_cadastrar input_cadastrar_senha" type="password" placeholder="Senha...">
+    <br>
+    <input class="btn_cadastrar" type="submit" value="Logar">
+</form>

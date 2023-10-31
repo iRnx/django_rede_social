@@ -8,6 +8,7 @@ urlpatterns = [
 
 
     path('send_friend_request/<str:username>/', views.send_friend_request, name='send_friend_request'),
+    path('desfazer_amizade/<int:id>/', views.desfazer_amizade, name='desfazer_amizade'),
     path('accept_friend_request/', views.accept_friend_request, name='accept_friend_request'),
     path('reject_friend_request/', views.reject_friend_request, name='reject_friend_request'),
     path('friends/', views.friend_list, name='friend_list'),
